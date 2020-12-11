@@ -1,0 +1,24 @@
+{
+  "name": "miya",
+  "version": "1.0.0",
+  "main": "miya.js",
+  "dependencies": {
+    "log-timestamp": "^0.3.0",
+    "mongodb": "^3.6.3",
+    "newman": "^5.2.1",
+    "node-jq": "^1.11.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "netico <netico.42@protonmail.com>",
+  "license": "GPL-3.0-or-later",
+  "description": "Miya.js is a Collection Runner for Postman. It allows you to run a Postman Collection and save the results to MongoDB."
+}
