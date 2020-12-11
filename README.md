@@ -16,3 +16,18 @@ See also:
     [2020-12-11T17:16:03.843Z] 0.163 MB received
     [2020-12-11T17:16:03.843Z] Database update in progress. Please wait...
     [2020-12-11T17:16:25.270Z] Database successfully updated!
+
+    $ mongo
+    MongoDB shell version: 3.2.11
+    connecting to: test
+    > use swapi
+    switched to db swapi
+    > show collections
+    Films
+    People
+    Planets
+    Species
+    Starships
+    Vehicles
+    > db.Planets.count()
+    60
