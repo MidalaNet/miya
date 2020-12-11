@@ -12,16 +12,6 @@
  * node-jq - https://github.com/sanack/node-jq
  */
 
-/*
- * TODO
- * [X] pagination
- * [?] rate limits
- * [ ] folders
- * [X] update
- * [?] dockerize
- * [X] configuration
- */
-
 // Node modules
 const newman = require('newman')
 const jq = require('node-jq')
