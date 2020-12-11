@@ -1,0 +1,707 @@
+{
+	"info": {
+		"_postman_id": "87d273aa-aa03-4326-91e6-b32ebf70ec32",
+		"name": "SWAPI",
+		"description": "The Star Wars API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Films",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "778675de-14f8-45a8-9e83-3ed0fa6154b5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "240c5669-4c8f-4a84-ac66-fc5bf524b3be",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/films/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"films",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "People (total)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0d74443f-6c3a-45c7-94d7-2aab3a2546d5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "46879ccc-8758-4b8b-a22d-bd7753146cc4",
+						"exec": [
+							"const rs = pm.response.json()",
+							"const total = parseInt(rs['count'])",
+							"",
+							"pm.variables.set('total', total)",
+							"pm.variables.set('first', 1)",
+							"pm.variables.set('index', 1)",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/people/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"people",
+						""
+					]
+				},
+				"description": "A People resource is an individual person or character within the Star Wars universe."
+			},
+			"response": []
+		},
+		{
+			"name": "People",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "778675de-14f8-45a8-9e83-3ed0fa6154b5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "240c5669-4c8f-4a84-ac66-fc5bf524b3be",
+						"exec": [
+							"const step = parseInt(pm.variables.get('step'))",
+							"const total = parseInt(pm.variables.get('total'))",
+							"const index = parseInt(pm.variables.get('index'))",
+							"const first = parseInt(pm.variables.get('first'))",
+							"const pages = Math.ceil(total / step)",
+							"",
+							"",
+							"if (first === 1) {",
+							"    pm.variables.set('index', index)",
+							"    pm.variables.set('first', 0)",
+							"} else {",
+							"    pm.variables.set('index', (index + 1))",
+							"}",
+							"",
+							"if ((index + 1) < pages) {",
+							"    postman.setNextRequest('People')",
+							"} else {",
+							"    pm.variables.set('first', 1)",
+							"    postman.setNextRequest('Planets (total)')",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/people/?page={{index}}",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"people",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "{{index}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Planets (total)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0d74443f-6c3a-45c7-94d7-2aab3a2546d5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "46879ccc-8758-4b8b-a22d-bd7753146cc4",
+						"exec": [
+							"const rs = pm.response.json()",
+							"const total = parseInt(rs['count'])",
+							"",
+							"pm.variables.set('total', total)",
+							"pm.variables.set('first', 1)",
+							"pm.variables.set('index', 1)",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/planets/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"planets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Planets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "778675de-14f8-45a8-9e83-3ed0fa6154b5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "240c5669-4c8f-4a84-ac66-fc5bf524b3be",
+						"exec": [
+							"const step = parseInt(pm.variables.get('step'))",
+							"const total = parseInt(pm.variables.get('total'))",
+							"const index = parseInt(pm.variables.get('index'))",
+							"const first = parseInt(pm.variables.get('first'))",
+							"const pages = Math.ceil(total / step)",
+							"",
+							"",
+							"if (first === 1) {",
+							"    pm.variables.set('index', index)",
+							"    pm.variables.set('first', 0)",
+							"} else {",
+							"    pm.variables.set('index', (index + 1))",
+							"}",
+							"",
+							"if ((index + 1) < pages) {",
+							"    postman.setNextRequest('Planets')",
+							"} else {",
+							"    pm.variables.set('first', 1)",
+							"    postman.setNextRequest('Species (total)')",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/planets/?page={{index}}",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"planets",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "{{index}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Species (total)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0d74443f-6c3a-45c7-94d7-2aab3a2546d5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "46879ccc-8758-4b8b-a22d-bd7753146cc4",
+						"exec": [
+							"const rs = pm.response.json()",
+							"const total = parseInt(rs['count'])",
+							"",
+							"pm.variables.set('total', total)",
+							"pm.variables.set('first', 1)",
+							"pm.variables.set('index', 1)",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/species",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"species"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Species",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "778675de-14f8-45a8-9e83-3ed0fa6154b5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "240c5669-4c8f-4a84-ac66-fc5bf524b3be",
+						"exec": [
+							"const step = parseInt(pm.variables.get('step'))",
+							"const total = parseInt(pm.variables.get('total'))",
+							"const index = parseInt(pm.variables.get('index'))",
+							"const first = parseInt(pm.variables.get('first'))",
+							"const pages = Math.ceil(total / step)",
+							"",
+							"",
+							"if (first === 1) {",
+							"    pm.variables.set('index', index)",
+							"    pm.variables.set('first', 0)",
+							"} else {",
+							"    pm.variables.set('index', (index + 1))",
+							"}",
+							"",
+							"if ((index + 1) < pages) {",
+							"    postman.setNextRequest('Species')",
+							"} else {",
+							"    pm.variables.set('first', 1)",
+							"    postman.setNextRequest('Starships (total)')",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/species/?page={{index}}",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"species",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "{{index}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Starships (total)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0d74443f-6c3a-45c7-94d7-2aab3a2546d5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "46879ccc-8758-4b8b-a22d-bd7753146cc4",
+						"exec": [
+							"const rs = pm.response.json()",
+							"const total = parseInt(rs['count'])",
+							"",
+							"pm.variables.set('total', total)",
+							"pm.variables.set('first', 1)",
+							"pm.variables.set('index', 1)",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/starships",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"starships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Starships",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "778675de-14f8-45a8-9e83-3ed0fa6154b5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "240c5669-4c8f-4a84-ac66-fc5bf524b3be",
+						"exec": [
+							"const step = parseInt(pm.variables.get('step'))",
+							"const total = parseInt(pm.variables.get('total'))",
+							"const index = parseInt(pm.variables.get('index'))",
+							"const first = parseInt(pm.variables.get('first'))",
+							"const pages = Math.ceil(total / step)",
+							"",
+							"",
+							"if (first === 1) {",
+							"    pm.variables.set('index', index)",
+							"    pm.variables.set('first', 0)",
+							"} else {",
+							"    pm.variables.set('index', (index + 1))",
+							"}",
+							"",
+							"if ((index + 1) < pages) {",
+							"    postman.setNextRequest('Starships')",
+							"} else {",
+							"    pm.variables.set('first', 1)",
+							"    postman.setNextRequest('Vehicles (total)')",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/starships/?page={{index}}",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"starships",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "{{index}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vehicles (total)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0d74443f-6c3a-45c7-94d7-2aab3a2546d5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "46879ccc-8758-4b8b-a22d-bd7753146cc4",
+						"exec": [
+							"const rs = pm.response.json()",
+							"const total = parseInt(rs['count'])",
+							"",
+							"pm.variables.set('total', total)",
+							"pm.variables.set('first', 1)",
+							"pm.variables.set('index', 1)",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/vehicles",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vehicles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "778675de-14f8-45a8-9e83-3ed0fa6154b5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "240c5669-4c8f-4a84-ac66-fc5bf524b3be",
+						"exec": [
+							"const step = parseInt(pm.variables.get('step'))",
+							"const total = parseInt(pm.variables.get('total'))",
+							"const index = parseInt(pm.variables.get('index'))",
+							"const first = parseInt(pm.variables.get('first'))",
+							"const pages = Math.ceil(total / step)",
+							"",
+							"",
+							"if (first === 1) {",
+							"    pm.variables.set('index', index)",
+							"    pm.variables.set('first', 0)",
+							"} else {",
+							"    pm.variables.set('index', (index + 1))",
+							"}",
+							"",
+							"if ((index + 1) < pages) {",
+							"    postman.setNextRequest('Vehicles')",
+							"} else {",
+							"    pm.variables.set('first', 1)",
+							"    postman.setNextRequest(null)",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/vehicles/?page={{index}}",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"vehicles",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "{{index}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "2d834c4c-913a-4d33-8814-4356c92b0c3a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "836b62de-4f89-4493-8bd5-097f33f9f485",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e7455d11-3591-44e8-8cc3-62519a472a49",
+			"key": "index",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "27513f53-ea8b-4c2b-a00b-e181ab862cdc",
+			"key": "step",
+			"value": "10",
+			"type": "string"
+		},
+		{
+			"id": "fa244fc6-100b-4aed-855e-730c48bad5c2",
+			"key": "total",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "c520797f-9a75-462d-b3fc-9e5ae011439d",
+			"key": "first",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
